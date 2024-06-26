@@ -13,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,8 +24,8 @@ public class ApplicationController {
 
     @GetMapping("/jobs/{jobsId}/apply")
     @PreAuthorize("hasAuthority('SCOPE_ALBA')")
-    public Map<String, Object> loadApplicationData(@PathVariable Integer jobsId, @AuthId Integer authId) {
-        return service.findResumesAndJobsTitle(jobsId, authId);
+    public ResponseEntity loadApplicationData(@PathVariable Integer jobsId, @AuthId Integer authId) {
+        return service.findResumesAndJobsData(jobsId, authId);
     }
 
     @PostMapping("/jobs/{jobsId}/apply")

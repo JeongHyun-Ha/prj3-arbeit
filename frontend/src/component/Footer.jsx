@@ -1,5 +1,13 @@
 import { Box, Flex, Select, Text, useMediaQuery } from "@chakra-ui/react";
 
+function handleFamilySitesClick() {
+  const familysite = {
+    잡코리아: "www.jobskorea.co.kr",
+    알바몬: "www.albamon.co.kr",
+    알바천국: "www.albaheaven.co.kr",
+  };
+}
+
 export function Footer() {
   const [isNeedResize] = useMediaQuery("(max-width: 1050px)");
   const footerList = [
@@ -14,7 +22,7 @@ export function Footer() {
   ];
 
   return (
-    <Box h={"200px"} bg={"#E9E9E9"}>
+    <Box h={"200px"} bg={"transparent"}>
       <Box
         w={"full"}
         // my={"20px"}
@@ -28,13 +36,7 @@ export function Footer() {
           justifyContent={"space-between"}
           cursor={"pointer"}
         >
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={"20px"}
-            // ml={"425px"}
-            p={5}
-          >
+          <Box display={"flex"} alignItems={"center"} gap={"20px"} p={5}>
             {footerList.map((item, index) => (
               <Text key={index} fontSize={isNeedResize ? "15px" : "medium"}>
                 {item}
@@ -49,9 +51,9 @@ export function Footer() {
               border={"2px solid lightgray"}
             >
               <option>Family Site</option>
-              <option>잡코리아</option>
-              <option>알바몬</option>
-              <option>알바천국</option>
+              <option onClick={handleFamilySitesClick}>잡코리아</option>
+              <option onClick={handleFamilySitesClick}>알바몬</option>
+              <option onClick={handleFamilySitesClick}>알바천국</option>
             </Select>
           </Box>
         </Flex>

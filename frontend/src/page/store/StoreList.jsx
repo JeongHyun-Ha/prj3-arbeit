@@ -63,7 +63,7 @@ export function StoreList() {
             </Box>
             <Table>
               <Thead borderY={"2px solid #CCD4E0"}>
-                <Tr h={"20px"}>
+                <Tr h={"30px"}>
                   <Th fontSize={"medium"}>#</Th>
                   <Th fontSize={"medium"}>사업장명</Th>
                   <Th fontSize={"medium"}>주소</Th>
@@ -79,14 +79,15 @@ export function StoreList() {
                     }}
                     cursor={"pointer"}
                     onClick={() => navigate(`/store/${store.id}`)}
-                    height="100px"
                     overflow="hidden"
                     borderBottom={"2px solid #E9E9E9"}
                   >
-                    <Td w={"50px"}>{store.id}</Td>
-                    <Td>{store.name}</Td>
-                    <Td>{store.address}</Td>
-                    <Td w={"150px"}>{store.inserted}</Td>
+                    {/* 각 테이블 행의 높이 결정 h={"50"} 이상만 가능한 듯. */}
+                    <Td w={"50px"} h={"50px"}>
+                      {store.id}
+                    </Td>{" "}
+                    <Td>{store.name}</Td> <Td>{store.address}</Td>{" "}
+                    <Td w={"150px"}>{store.inserted}</Td>{" "}
                   </Tr>
                 ))}
               </Tbody>

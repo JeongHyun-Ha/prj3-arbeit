@@ -61,12 +61,10 @@ export function ApplicationWrite() {
           })
           .catch((err) => {
             if (err.response.status === 403) {
-              toast({
-                status: "warning",
-                description: "접근 권한이 없습니다.",
-                position: "top",
-              });
               navigate("/");
+            }
+            if (err.response.status === 404) {
+              navigate("/jobs/list");
             }
           });
       })

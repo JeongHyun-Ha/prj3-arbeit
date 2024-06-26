@@ -2,15 +2,17 @@ package com.backend.service.application;
 
 import com.backend.domain.application.Application;
 import com.backend.domain.application.ApplicationWriteForm;
+import com.backend.domain.jobs.Jobs;
 import com.backend.domain.resume.Resume;
 import com.backend.mapper.application.ApplicationMapper;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.backend.mapper.jobs.JobsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +22,27 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ApplicationService {
     private final ApplicationMapper mapper;
+    private final JobsMapper jobsMapper;
 
-    public Map<String, Object> findResumesAndJobsTitle(Integer jobsId, Integer authId) {
+    public ResponseEntity findResumesAndJobsData(Integer jobsId, Integer authId) {
         Map<String, Object> result = new HashMap<>();
 
         List<Resume> resumes = mapper.selectResumeByMemberId(authId);
-        String jobsTitle = mapper.selectJobsTitleByJobsId(jobsId);
+        Jobs jobs = jobsMapper.selectById(jobsId);
+        LocalDateTime deadline = jobs.getDeadline();
+        LocalDateTime now = LocalDateTime.now();
 
-        result.put("resumes", resumes);
-        result.put("jobsTitle", jobsTitle);
+        if (resumes != null && jobs != null && now.isBefore(deadline)) {
+            Map<String, Object> jobsMap = new HashMap<>();
+            jobsMap.put("jobsTitle", jobs.getTitle());
+            jobsMap.put("deadline", jobs.getDeadline());
 
-        return result;
+            result.put("resumes", resumes);
+            result.put("jobsMap", jobsMap);
+
+            return ResponseEntity.ok().body(result);
+        }
+        return ResponseEntity.status(404).build();
     }
 
     public void write(ApplicationWriteForm form, Integer authId) {

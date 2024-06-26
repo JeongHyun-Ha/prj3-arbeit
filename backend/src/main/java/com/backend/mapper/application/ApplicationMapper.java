@@ -1,6 +1,7 @@
 package com.backend.mapper.application;
 
 import com.backend.domain.application.Application;
+import com.backend.domain.jobs.Jobs;
 import com.backend.domain.resume.Resume;
 import org.apache.ibatis.annotations.*;
 
@@ -23,10 +24,10 @@ public interface ApplicationMapper {
     int insert(Application application);
 
     @Select("""
-            SELECT title FROM jobs
+            SELECT * FROM jobs
             WHERE id = #{jobsId}
             """)
-    String selectJobsTitleByJobsId(Integer jobsId);
+    Jobs selectJobsByJobsId(Integer jobsId);
 
     @Select("""
             SELECT a.*,j.title AS jobsTitle

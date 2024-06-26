@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  Flex,
   Heading,
   Table,
   Tbody,
@@ -69,7 +70,7 @@ function ScrapHistory(props) {
               </Tr>
             </Thead>
             <Tbody>
-              {scrapList.map((item, index) => (
+              {scrapList.map((scrap, index) => (
                 <Tr
                   key={index}
                   cursor={"pointer"}
@@ -78,22 +79,37 @@ function ScrapHistory(props) {
                   <Td>{index + 1}</Td>
                   <Td
                     onClick={() => {
-                      navigate(`/jobs/${item.jobsId}`);
+                      navigate(`/jobs/${scrap.jobsId}`);
                     }}
                     fontWeight={"700"}
                   >
-                    {item.jobsTitle}
+                    {scrap.jobsTitle}
                   </Td>
                   <Td>
-                    <Button
-                      colorScheme={"red"}
-                      variant={"outline"}
-                      size={"sm"}
-                      mt={"10px"}
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      삭제
-                    </Button>
+                    <Flex gap={"10px"}>
+                      <Button
+                        colorScheme={"teal"}
+                        variant={"outline"}
+                        size={"sm"}
+                        mt={"10px"}
+                        onClick={() => {
+                          scrap.jobsId
+                            ? navigate(`/jobs/${scrap.jobsId}/apply`)
+                            : navigate("/");
+                        }}
+                      >
+                        지원
+                      </Button>
+                      <Button
+                        colorScheme={"red"}
+                        variant={"outline"}
+                        size={"sm"}
+                        mt={"10px"}
+                        onClick={() => handleDelete(scrap.id)}
+                      >
+                        삭제
+                      </Button>
+                    </Flex>
                   </Td>
                 </Tr>
               ))}
